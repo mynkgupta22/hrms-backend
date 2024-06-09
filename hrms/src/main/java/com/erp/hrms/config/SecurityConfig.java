@@ -38,7 +38,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .cors().disable()
-                .csrf().disable()
                 .authorizeHttpRequests(e -> {
                     e.requestMatchers(WHITE_LIST_URLS).permitAll()
                             .requestMatchers(HttpMethod.POST,"/add-users").permitAll()

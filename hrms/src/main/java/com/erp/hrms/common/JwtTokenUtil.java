@@ -61,12 +61,13 @@ public class JwtTokenUtil {
     public String generateToken(UserDetails userDetails, String abc) {
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put("company", abc);
+        claims.put("companyUid", abc);
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
-    public String generateToken(User user, String comapnyUid) {
+    public String generateToken(User user, String companyUid) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("companyUid",companyUid);
         return doGenerateToken(claims, user.getUserName());
     }
 }
