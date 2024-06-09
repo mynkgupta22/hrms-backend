@@ -31,10 +31,10 @@ public class User {
 
     private String lastName;
 
-    @Column(columnDefinition = "TINYINT(1) DEFAULT 1 ")
+    @Column(columnDefinition = "boolean default true ")
     private boolean enabled;
 
-    @Column(columnDefinition = "TINYINT(1) DEFAULT 0 ")
+    @Column(columnDefinition = "boolean default false ")
     private boolean deleted;
 
     private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
