@@ -3,6 +3,7 @@ package com.erp.hrms.model.business;
 import com.erp.hrms.model.common.SubModule;
 import com.erp.hrms.model.users.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @Entity
 @Table
+@AllArgsConstructor
 public class CompanyAllotment {
 
     @Id

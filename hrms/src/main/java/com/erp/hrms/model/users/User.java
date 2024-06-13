@@ -3,6 +3,7 @@ package com.erp.hrms.model.users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Table(name = "users")
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -31,11 +33,13 @@ public class User {
 
     private String lastName;
 
+    private String email;
+
     @Column(columnDefinition = "boolean default true ")
     private boolean enabled;
 
     @Column(columnDefinition = "boolean default false ")
-    private boolean deleted;
+    private boolean isDeleted;
 
     private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 

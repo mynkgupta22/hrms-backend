@@ -15,14 +15,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class Company {
 
     @Id
@@ -43,11 +46,9 @@ public class Company {
     @Convert(converter = StringTrimConverter.class)
     private String plotNumber;
 
-    //@Size(max = 100)
     @Convert(converter = StringTrimConverter.class)
     private String area;
 
-    //@Size(max = 100)
     @Convert(converter = StringTrimConverter.class)
     private String city;
 
@@ -87,7 +88,7 @@ public class Company {
     private boolean isDeleted;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @OneToMany( cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
     private List<CompanyAllotment> companyAllotments;

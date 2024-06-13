@@ -23,7 +23,7 @@ public class SecurityConfig {
     private JwtRequestFilter jwtRequestFilter;
 
     private final String[] WHITE_LIST_URLS = {
-            "/register","/authenticate","/swagger-ui/**","/v3/api-docs/**","/api-docs/**"
+            "/register-company","/authenticate","/swagger-ui/**","/v3/api-docs/**","/api-docs/**"
     };
 
     @Bean
@@ -38,6 +38,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .cors().disable()
+                .csrf().disable()
                 .authorizeHttpRequests(e -> {
                     e.requestMatchers(WHITE_LIST_URLS).permitAll()
                             .requestMatchers(HttpMethod.POST,"/add-users").permitAll()

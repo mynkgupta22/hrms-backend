@@ -7,6 +7,5 @@ public interface IUserRepository extends JpaRepository<User,Long> {
 
     User findByUserName(String userName);
 
-    User findByUserNameAndEnabledTrueAndDeletedFalse(String userName);
-
+    boolean existsByEmailAndIsDeletedFalse(String email);
 }
