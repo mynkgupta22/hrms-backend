@@ -1,5 +1,5 @@
 # Use the official Maven image to create a build artifact
-FROM maven:3.8.4-openjdk-11 AS build
+FROM Maven:3.9.8-eclipse-temurin-21 AS build
 
 # Set the working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY src ./src
 RUN mvn package -DskipTests
 
 # Use adoptopenjdk for the JRE
-FROM adoptopenjdk/openjdk11:jre-11.0.12_7-alpine
+FROM eclipse-temurin:21-jdk
 
 # Set the working directory in the container
 WORKDIR /app
