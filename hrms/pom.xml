@@ -93,7 +93,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
+				<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
@@ -105,16 +105,26 @@
 					</excludes>
 				</configuration>
 			</plugin>
-				 <plugin>
-           				  <groupId>org.apache.maven.plugins</groupId>
-          				  <artifactId>maven-compiler-plugin</artifactId>
-          			  	  <version>3.9.0</version>
-          			 	  <configuration>
-             				 	  <source>21</source>
-              				 	  <target>21</target>
-             			   <!-- Adjust the source and target according to your JDK version compatibility -->
-          		  		</configuration>
-        			</plugin>
+			<plugin>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.hibernate.orm</groupId>
+						<artifactId>hibernate-jpamodelgen</artifactId>
+						<version>6.4.4.Final</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 
