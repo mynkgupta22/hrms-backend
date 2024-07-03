@@ -12,3 +12,4 @@ CMD ["java", "-jar", "app.jar"]
 
 # Tag and push the image to Docker Hub
 #RUN docker tag my-spring-boot-app mynkgupta22/utoora:latest && docker push mynkgupta22/utoora:latest
+
