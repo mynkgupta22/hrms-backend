@@ -14,7 +14,7 @@
 	<name>hrms</name>
 	<description>HRMS ERP Software</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
