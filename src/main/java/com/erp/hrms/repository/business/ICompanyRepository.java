@@ -9,4 +9,6 @@ public interface ICompanyRepository extends JpaRepository<Company,Long> {
 
     @Query("SELECT MAX(c.id) FROM Company c")
     Long findMaxId();
+
+    Company findByUidAndIsDeletedFalse(String companyUid);
 }

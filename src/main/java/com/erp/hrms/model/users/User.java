@@ -1,5 +1,6 @@
 package com.erp.hrms.model.users;
 
+import com.erp.hrms.model.business.Company;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,4 +49,7 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles")
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Company company;
 }

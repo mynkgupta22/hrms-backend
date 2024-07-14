@@ -26,15 +26,13 @@ public class CompanyAllotment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "uid", columnDefinition = "VARCHAR(255)", updatable = false, nullable = false)
     private String uid = UUID.randomUUID().toString();
 
     @ManyToOne
     private SubModule subModule;
 
-    boolean enabled;
-
+    private boolean enabled;
 
     @ManyToOne
     @JoinColumn(name = "editedby_id", nullable = false)
