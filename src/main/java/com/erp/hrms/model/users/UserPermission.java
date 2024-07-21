@@ -2,6 +2,7 @@ package com.erp.hrms.model.users;
 
 import com.erp.hrms.model.business.Company;
 import com.erp.hrms.model.common.SubModule;
+import com.erp.hrms.model.common.Module;
 import com.erp.hrms.model.settings.Department;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -43,7 +43,7 @@ public class UserServiceImpl implements IUserService {
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         user.setEmail(userRequest.getUserEmail());
-        user.getRoles().add(Role.ROLE_USER);
+        user.setRole(Role.ROLE_USER);
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setEnabled(true);
         user.setUserName(userRequest.getUserEmail());

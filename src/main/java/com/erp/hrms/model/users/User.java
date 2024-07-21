@@ -48,9 +48,12 @@ public class User {
 
     private LocalDateTime editedAt;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles")
-    private Set<Role> roles = new HashSet<>();
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @JoinTable(name = "user_roles")
+//    private Set<Role> roles = new HashSet<>();
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Company company;

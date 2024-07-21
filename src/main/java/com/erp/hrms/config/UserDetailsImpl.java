@@ -25,7 +25,7 @@ public class UserDetailsImpl implements UserDetails {
     public UserDetailsImpl(Long id, String userName, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.userName = userName;
-        this.password = password;
+        this.password = null;
         this.authorities = authorities;
     }
 
@@ -66,8 +66,8 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> list = user.getRoles().stream().map(e -> new SimpleGrantedAuthority(e.name())).collect(Collectors.toList());
-        return new UserDetailsImpl(user.getId(), user.getUserName(), user.getPassword(),
+        List<GrantedAuthority> list = List.of(new SimpleGrantedAuthority(user.getRole().name()));
+       return new UserDetailsImpl(user.getId(), user.getUserName(), null,
                 list);
     }
 }

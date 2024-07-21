@@ -42,10 +42,10 @@ public class CompanyServiceImpl implements ICompanyService {
         company.setCompanyLogo(companyRequest.getCompanyLogo());
         company.setCompanyCode(companyRequest.getCompanyAbb()+maxCompanyId);
         company.setCompanyName(companyRequest.getCompanyName());
-        if(companyRequest.getCompanyAllotmentsUids() != null && companyRequest.getCompanyAllotmentsUids().isEmpty()){
-            List<CompanyAllotment> companyAllotmentList = companyAllotmentRepository.findAllByUidIn(companyRequest.getCompanyAllotmentsUids());
-            company.setCompanyAllotments(companyAllotmentList);
-        }
+//        if(companyRequest.getCompanyAllotmentsUids() != null && companyRequest.getCompanyAllotmentsUids().isEmpty()){
+//            List<CompanyAllotment> companyAllotmentList = companyAllotmentRepository.findAllByUidIn(companyRequest.getCompanyAllotmentsUids());
+//            company.setCompanyAllotments(companyAllotmentList);
+//        }
         company.setPlotNumber(companyRequest.getPlotNumber());
         company.setArea(companyRequest.getArea());
         company.setCity(companyRequest.getCity());

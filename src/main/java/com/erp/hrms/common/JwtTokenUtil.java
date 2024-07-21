@@ -1,5 +1,6 @@
 package com.erp.hrms.common;
 
+import com.erp.hrms.model.users.Role;
 import com.erp.hrms.model.users.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -58,17 +59,12 @@ public class JwtTokenUtil {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public String generateToken(UserDetails userDetails, String abc) {
-        Map<String, Object> claims = new HashMap<>();
-
-        claims.put("companyUid", abc);
-        return doGenerateToken(claims, userDetails.getUsername());
-    }
 
     public String generateToken(User user, String companyUid) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("companyUid",companyUid);
         claims.put("userUid",user.getUid());
+        claims.put("role", user.getRole().name());
         return doGenerateToken(claims, user.getUserName());
     }
 }
