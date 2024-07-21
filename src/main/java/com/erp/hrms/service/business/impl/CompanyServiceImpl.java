@@ -4,10 +4,12 @@ import com.erp.hrms.api.request.business.CompanyRequest;
 import com.erp.hrms.exception.BadRequestException;
 import com.erp.hrms.model.business.Company;
 import com.erp.hrms.model.business.CompanyAllotment;
+import com.erp.hrms.model.common.SubModule;
 import com.erp.hrms.model.users.Role;
 import com.erp.hrms.model.users.User;
 import com.erp.hrms.repository.business.ICompanyAllotmentRepository;
 import com.erp.hrms.repository.business.ICompanyRepository;
+import com.erp.hrms.repository.common.ISubModuleRepository;
 import com.erp.hrms.repository.user.IUserRepository;
 import com.erp.hrms.service.business.ICompanyService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +33,8 @@ public class CompanyServiceImpl implements ICompanyService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final ISubModuleRepository subModuleRepository;
+
 
     @Override
     @Transactional
@@ -42,10 +47,10 @@ public class CompanyServiceImpl implements ICompanyService {
         company.setCompanyLogo(companyRequest.getCompanyLogo());
         company.setCompanyCode(companyRequest.getCompanyAbb()+maxCompanyId);
         company.setCompanyName(companyRequest.getCompanyName());
-//        if(companyRequest.getCompanyAllotmentsUids() != null && companyRequest.getCompanyAllotmentsUids().isEmpty()){
-//            List<CompanyAllotment> companyAllotmentList = companyAllotmentRepository.findAllByUidIn(companyRequest.getCompanyAllotmentsUids());
-//            company.setCompanyAllotments(companyAllotmentList);
-//        }
+        if(companyRequest.getCompanyAllotmentsUids() != null && companyRequest.getCompanyAllotmentsUids().isEmpty()){
+            List<CompanyAllotment> companyAllotmentList = getCompanyAllotmentList(companyRequest.getCompanyAllotmentsUids());
+            company.setCompanyAllotments(companyAllotmentList);
+        }
         company.setPlotNumber(companyRequest.getPlotNumber());
         company.setArea(companyRequest.getArea());
         company.setCity(companyRequest.getCity());
@@ -63,13 +68,27 @@ public class CompanyServiceImpl implements ICompanyService {
         user.setFirstName(companyRequest.getFirstName());
         user.setLastName(companyRequest.getLastName());
         user.setEmail(companyRequest.getUserEmail());
-        user.getRoles().add(Role.ROLE_ADMIN);
+        user.setRole(Role.ROLE_ADMIN);
         user.setPassword(passwordEncoder.encode(companyRequest.getPassword()));
         user.setEnabled(true);
         user.setUserName(companyRequest.getUserEmail());
         company.getUsers().add(user);
         companyRepository.save(company);
         return "Company Created Successfully.";
+    }
+
+    private List<CompanyAllotment> getCompanyAllotmentList(List<String> subModuleUids){
+        List<SubModule> subModuleList = subModuleRepository.findAllByUidIn(subModuleUids);
+        List<CompanyAllotment> companyAllotmentList = new ArrayList<>();
+        if(subModuleList != null){
+            for(SubModule subModule:subModuleList){
+                CompanyAllotment companyAllotment = new CompanyAllotment();
+                companyAllotment.setSubModule(subModule);
+                companyAllotment.setEnabled(true);
+                companyAllotmentList.add(companyAllotment);
+            }
+        }
+        return companyAllotmentList;
     }
 
 }

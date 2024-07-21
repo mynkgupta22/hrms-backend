@@ -2,9 +2,11 @@ package com.erp.hrms.common;
 
 import com.erp.hrms.model.users.Role;
 import com.erp.hrms.model.users.User;
+import com.erp.hrms.repository.auth.IBlackListTokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,9 @@ import java.util.function.Function;
 
 @Component
 public class JwtTokenUtil {
+
+    @Autowired
+    private IBlackListTokenRepository blackListTokenRepository;
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
     private static final long jwtExpirationMs = 1000;
@@ -53,10 +58,18 @@ public class JwtTokenUtil {
         return expiration.before(new Date());
     }
 
+    private Boolean isTokenExpiredOrLogout(String token,String userName) {
+        final Date expiration = getExpirationDateFromToken(token);
+        if(blackListTokenRepository.existsByUserNameAndToken(userName,token)){
+            return true;
+        };
+        return expiration.before(new Date());
+    }
+
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.getUsername()) && !isTokenExpiredOrLogout(token,username));
     }
 
 

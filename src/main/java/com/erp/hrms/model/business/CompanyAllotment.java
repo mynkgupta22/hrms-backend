@@ -31,11 +31,13 @@ public class CompanyAllotment {
     @Column(name = "uid", columnDefinition = "VARCHAR(255)", updatable = false, nullable = false)
     private String uid = UUID.randomUUID().toString();
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<SubModule> subModules;
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private SubModule subModule;
+
+    private boolean enabled;
 
     @ManyToOne
-    @JoinColumn(name = "editedby_id", nullable = false)
+    @JoinColumn(name = "editedby_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User editedUser;
 

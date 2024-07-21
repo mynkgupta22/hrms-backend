@@ -8,4 +8,8 @@ public interface IContextService {
 
     public Company getCurrentCompany();
 
+    public String getCurrentJwtToken();
+
+    public String getCurrentUserNameFromToken();
+
     }

@@ -18,4 +18,9 @@ public class UserAuthController {
     public ResponseEntity<?> authenticate(@RequestBody JwtAuthenticationRequest request){
         return ResponseEntity.ok(userAuthService.authenticate(request));
     }
+
+    @PostMapping("/log-out")
+    public ResponseEntity<?> logOutUser(){
+        return ResponseEntity.ok(userAuthService.logoutUser());
+    }
 }

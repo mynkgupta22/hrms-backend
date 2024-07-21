@@ -27,6 +27,6 @@ public class UserResponse {
         this.userName = user.getUserName();
         this.email = user.getEmail();
         this.enabled = user.isEnabled();
-        this.role = user.getRoles().stream().findFirst().toString();
+        this.role = user.getRole().name();
     }
 }

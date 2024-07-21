@@ -6,4 +6,6 @@ import com.erp.hrms.api.response.auth.JwtAuthenticationResponse;
 public interface IUserAuthService {
     public JwtAuthenticationResponse authenticate(JwtAuthenticationRequest request);
 
+    public String logoutUser();
+
 }

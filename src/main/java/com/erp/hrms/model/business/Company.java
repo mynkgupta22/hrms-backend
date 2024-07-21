@@ -81,7 +81,7 @@ public class Company {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
-    @OneToOne( cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
-    private CompanyAllotment companyAllotment;
+    @OneToMany( cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
+    private List<CompanyAllotment> companyAllotments;
 
 }
