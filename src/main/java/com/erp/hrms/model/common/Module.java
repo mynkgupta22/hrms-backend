@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +46,7 @@ public class Module {
     @JoinColumn(name = "createdBy_id", nullable = false)
     private User createdUser;
 
-    Timestamp createdDate = Timestamp.from(ZonedDateTime.now().toInstant());
-
+    LocalDateTime editedAt = LocalDateTime.now();
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "editedBy_id", nullable = false)

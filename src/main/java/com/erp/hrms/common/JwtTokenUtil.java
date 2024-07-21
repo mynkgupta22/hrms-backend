@@ -16,14 +16,14 @@ import java.util.function.Function;
 public class JwtTokenUtil {
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-    private static long jwtExpirationMs = 0;
+    private static final long jwtExpirationMs = 1000;
     private static final String secret = "NyHnbBw84RGC6sO565pVriPWqNaw0dc4DVbzigpnoMBAFi6cbU/xsGniO1eLUjOJU9hA8wLzHsw1/gRmkIDHMlgnP7F+RQxMBt/6cawr3x+YvzAhn3ZFEWzcuD/3dV8aykV09qd99zQ3Z13uwUjlo8odhklvOK99aA5fMasBL1aJHfE3xhEwH27ytgHWm1LsBFGz8A7LJAWwKDQIShc4WnqJbhQ4URHZoqpDXm5orDOhO41vEkTWQrKSXcf3zr7Rmi1Buw7t0TeTaMpganpWtQQEM3iitKXEB/yLj4Z+NLvcA3PmLHbNColC4MOTHW2LrcKAfsN9uoq9BP4abjEA/IvKWihyydLPy1GcsemWO4I=";
 
     private String doGenerateToken(Map<String,Object> claims, String subject){
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * jwtExpirationMs))
                 .setSubject(subject)
                 .signWith(SignatureAlgorithm.HS512,secret)
                 .compact();

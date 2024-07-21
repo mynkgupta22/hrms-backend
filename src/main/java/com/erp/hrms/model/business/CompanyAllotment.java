@@ -11,7 +11,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -29,17 +31,15 @@ public class CompanyAllotment {
     @Column(name = "uid", columnDefinition = "VARCHAR(255)", updatable = false, nullable = false)
     private String uid = UUID.randomUUID().toString();
 
-    @ManyToOne
-    private SubModule subModule;
-
-    private boolean enabled;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<SubModule> subModules;
 
     @ManyToOne
     @JoinColumn(name = "editedby_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User editedUser;
 
-    Timestamp editedDate = Timestamp.from(ZonedDateTime.now().toInstant());
+    private LocalDateTime editedAt = LocalDateTime.now();
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)

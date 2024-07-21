@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -42,9 +44,9 @@ public class User {
     @Column(columnDefinition = "boolean default false ")
     private boolean isDeleted;
 
-    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    private Timestamp editedAt;
+    private LocalDateTime editedAt;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles")
@@ -52,4 +54,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Company company;
+
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<UserPermission> userPermissionList;
 }
