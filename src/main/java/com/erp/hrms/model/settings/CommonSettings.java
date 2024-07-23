@@ -19,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CommonSettingValue {
+public class CommonSettings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
