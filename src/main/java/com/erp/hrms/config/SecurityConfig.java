@@ -1,12 +1,12 @@
 package com.erp.hrms.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,47 +14,47 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
-
-    private final String[] WHITE_LIST_URLS = {
-            "/register-company",
-            "/authenticate",
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/api-docs/**"
+    private static final String[] WHITE_LIST_URLS = {
+        "/register-company",
+        "/authenticate",
+        "/swagger-ui/**",
+        "/v3/api-docs/**",
+        "/api-docs/**"
     };
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
-            throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http,
+                                                       BCryptPasswordEncoder bCryptPasswordEncoder,
+                                                       UserDetailsServiceImpl userDetailsService) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder)
-                .and()
-                .build();
+                   .userDetailsService(userDetailsService)
+                   .passwordEncoder(bCryptPasswordEncoder)
+                   .and()
+                   .build();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.disable())
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(WHITE_LIST_URLS).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/add-users").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   JwtRequestFilter jwtRequestFilter) throws Exception {
+        http
+          .csrf(csrf -> csrf.disable())
+          .cors(cors -> cors.disable())
+          .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+          .authorizeRequests(auth -> auth
+              // public endpoints
+              .requestMatchers(WHITE_LIST_URLS).permitAll()
+              .requestMatchers(HttpMethod.POST, "/add-users").permitAll()
+              .requestMatchers("/error").permitAll()
+              // everything else needs auth
+              .anyRequest().authenticated()
+          )
+          // add the JWT filter
+          .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
     @Bean
