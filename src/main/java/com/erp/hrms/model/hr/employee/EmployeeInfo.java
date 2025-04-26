@@ -1,6 +1,7 @@
 package com.erp.hrms.model.hr.employee;
 
 import com.erp.hrms.model.business.Company;
+import com.erp.hrms.model.settings.Designation;
 import com.erp.hrms.model.users.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,12 @@ public class EmployeeInfo {
 
     @Column(columnDefinition = "boolean default false")
     private boolean isDeleted;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Designation designation;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private EmployeeInfo reportingTo;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Company company;

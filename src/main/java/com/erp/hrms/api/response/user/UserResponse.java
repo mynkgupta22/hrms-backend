@@ -1,10 +1,9 @@
 package com.erp.hrms.api.response.user;
-
-import com.erp.hrms.model.users.User;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.erp.hrms.model.users.User;
 
 @Data
 @NoArgsConstructor

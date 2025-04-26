@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -33,10 +34,11 @@ public class Designation {
 
     private int priority;
 
-    @NotNull
-    @Size(max = 255)
-    @Convert(converter = StringTrimConverter.class)
-    private String typeValue;
+    @OneToMany(mappedBy = "reportingTo",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Designation> subordinates;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Designation reportingTo;
 
     @Column
     private boolean isDeleted = false;

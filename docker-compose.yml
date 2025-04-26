@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:   # this will become one container, jitni service utni container
+    image: postgres:13  # Ye batata hai ki kaunsi Docker image se container banana hai (here, official postgres version 13).
+    container_name: postgres # Isse container ka naam fix ho jata hai — warna Docker random naam de deta hai (e.g., sleepy_morse 😂).
+    environment:
+      POSTGRES_DB: demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5435:5432"  # host:container   Yeh port mapping allow karti hai container ko bahar ki duniya se baat karne ke liye.
+    networks:
+      - backend
+    volumes:
+      - postgres-data:/var/lib/postgresql/data    #volume mein DB ka data safe rahega, even if container delete ho jaaye
+
+  redis:    # this will become another container, jitni service utni container
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6380:6379"  # host:container
+    networks:
+      - backend
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: misogi-ai
+    ports:
+      - "8082:8080"  # host:container
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/demo
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+
+volumes:
+  postgres-data:
+
+networks:
+  backend:
