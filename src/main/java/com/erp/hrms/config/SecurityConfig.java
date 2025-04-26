@@ -23,28 +23,36 @@ public class SecurityConfig {
     private JwtRequestFilter jwtRequestFilter;
 
     private final String[] WHITE_LIST_URLS = {
-            "/register-company","/authenticate","/swagger-ui/**","/v3/api-docs/**","/api-docs/**"
+            "/register-company",
+            "/authenticate",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/api-docs/**"
     };
 
     @Bean
-    AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
+    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
             throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder).and().build();
+                .passwordEncoder(bCryptPasswordEncoder)
+                .and()
+                .build();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .cors().disable()
-                .csrf().disable()
-                .authorizeHttpRequests(e -> {
-                    e.requestMatchers(WHITE_LIST_URLS).permitAll()
-                            .requestMatchers(HttpMethod.POST,"/add-users").permitAll()
-                            .anyRequest().authenticated();
-                })
-                .sessionManagement(e->e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.disable())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(WHITE_LIST_URLS).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/add-users").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
