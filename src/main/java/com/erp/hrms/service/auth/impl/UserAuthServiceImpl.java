@@ -5,6 +5,7 @@ import com.erp.hrms.api.response.auth.JwtAuthenticationResponse;
 import com.erp.hrms.common.JwtTokenUtil;
 import com.erp.hrms.exception.BadRequestException;
 import com.erp.hrms.model.auth.BlackListToken;
+import com.erp.hrms.model.business.Company;
 import com.erp.hrms.model.users.User;
 import com.erp.hrms.repository.auth.IBlackListTokenRepository;
 import com.erp.hrms.repository.user.IUserRepository;
@@ -35,11 +36,13 @@ public class UserAuthServiceImpl implements IUserAuthService {
     @Override
     public JwtAuthenticationResponse authenticate(JwtAuthenticationRequest request) {
         User user = userRepository.findByUserName(request.getUserName());
+        Company company = user.getCompany();
+        String uid = company == null ? null : company.getUid();
         if (!passwordEncoder.matches(request.getPassword(),user.getPassword())) {
             throw new BadRequestException("Incorrect UserName or Password");
         }
         return new
-                JwtAuthenticationResponse(jwtTokenUtil.generateToken(user, null));
+                JwtAuthenticationResponse(jwtTokenUtil.generateToken(user, uid));
 
     }
 
