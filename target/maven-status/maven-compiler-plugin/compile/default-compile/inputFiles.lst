@@ -16,6 +16,7 @@
 /Users/mayank/Downloads/hrms-backend/src/main/java/com/erp/hrms/config/JwtRequestFilter.java
 /Users/mayank/Downloads/hrms-backend/src/main/java/com/erp/hrms/config/OpenApiConfig.java
 /Users/mayank/Downloads/hrms-backend/src/main/java/com/erp/hrms/config/SecurityConfig.java
+/Users/mayank/Downloads/hrms-backend/src/main/java/com/erp/hrms/config/SessionConfig.java
 /Users/mayank/Downloads/hrms-backend/src/main/java/com/erp/hrms/config/UserDetailsImpl.java
 /Users/mayank/Downloads/hrms-backend/src/main/java/com/erp/hrms/config/UserDetailsServiceImpl.java
 /Users/mayank/Downloads/hrms-backend/src/main/java/com/erp/hrms/controller/auth/UserAuthController.java
