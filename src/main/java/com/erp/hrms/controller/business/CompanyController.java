@@ -19,6 +19,7 @@ public class CompanyController {
 
     @PostMapping("register-company")
     public ResponseEntity<?> createCompany(@RequestBody CompanyRequest companyRequest){
+    	
         return new ResponseEntity<>(companyService.createCompany(companyRequest), HttpStatus.OK);
     }
 
