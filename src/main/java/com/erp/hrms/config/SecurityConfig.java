@@ -46,7 +46,7 @@ public class SecurityConfig {
           .authorizeRequests(auth -> auth
               // public endpoints
               .requestMatchers(WHITE_LIST_URLS).permitAll()
-              .requestMatchers(HttpMethod.POST, "/add-users").permitAll()
+              .requestMatchers(HttpMethod.POST, "/create-user").permitAll()
               .requestMatchers("/error").permitAll()
               // everything else needs auth
               .anyRequest().authenticated()
